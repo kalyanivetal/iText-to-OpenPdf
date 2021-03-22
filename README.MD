@@ -7,9 +7,9 @@
 ```
 
 ### Depedencies	
-* [java]()-11.0.10 Langauge used
-* [iText]()- [iText Pdf Parsing Library](https://itextpdf.com/en) iText is a library for creating and manipulating PDF files in Java.
-* [OpenPdf]() - [OpenPdf Parsing Library]( https://github.com/LibrePDF/OpenPDF) OpenPDF is a free Java library for creating and editing PDF files with a LGPL and MPL open source license. OpenPDF is based on a fork of iText. 
+* java()-11.0.10 Langauge used
+* iText()- [iText Pdf Parsing Library](https://itextpdf.com/en) iText is a library for creating and manipulating PDF files in Java.
+* OpenPdf() - [OpenPdf Parsing Library]( https://github.com/LibrePDF/OpenPDF) OpenPDF is a free Java library for creating and editing PDF files with a LGPL and MPL open source license. OpenPDF is based on a fork of iText. 
 
 
 ### Download link - Clone this repository in your local machine 
