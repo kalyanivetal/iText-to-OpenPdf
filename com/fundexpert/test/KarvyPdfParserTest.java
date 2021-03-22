@@ -19,11 +19,17 @@ import com.fundexpert.pojo.Holdings;
 import com.fundexpert.pojo.Transactions;
 import com.fundexpert.util.CopyOfCamsPortfolioPdfParser;
 //import com.fundexpert.util.PdfReaderAndPersist;
-import com.itextpdf.text.DocumentException;
+/*import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.exceptions.BadPasswordException;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.PdfStamper;
-
+*/
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.parser.PdfTextExtractor;
+import com.lowagie.text.exceptions.BadPasswordException;
+import com.lowagie.text.exceptions.InvalidPdfException;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.pdf.PdfStamper;
 public class KarvyPdfParserTest {
 
 	public static void main(String[] args) throws IOException, DocumentException {
@@ -35,26 +41,19 @@ public class KarvyPdfParserTest {
 		String targetPath = "F:/PdfFiles/karvy/Fund@151361-4857882101202114213092384992346202.pdf";
 		String pass = "Fund@151361";*/
 		
-		String sourcePath = "/home/puscd/iText-to-openPDF/Fund@174200-16845352302202117132070986790572614.pdf";
-		String targetPath = "/home/puscd/iText-to-openPDF/Fund@174200-16845352302202117132070986790572614_OUT.pdf";
+		String sourcePath = "/home/puscd/iText-to-openPDF/iText-to-OpenPdf/source_file.pdf";
+		String targetPath = "/home/puscd/iText-to-openPDF/iText-to-OpenPdf/dest_output_file.pdf";
 		String pass = "Fund@174200";
 //		String pass="123456";
 		KarvyPdfParserTest k=new KarvyPdfParserTest();
 		try {
-			/*PortfolioImportController portfolioImportController = new PortfolioImportController(sourcePath);
-			portfolioImportController.sFactory(142746, "Fund@142746-17161990203202112293557150050613905",true,pass,true);
-			System.out.println("After Pdf importing");
-			// writer.print(storePdf.getMissingFunds().toString(4));
-			List<Map> missingFunds = portfolioImportController.getMissingFunds();
-
-			System.out.println("After missing funds " + missingFunds.size());*/
 			
 			System.out.println("output of decrypted File="+k.getDecryptedFile(sourcePath, targetPath, pass));
 			
 			//PdfReaderAndPersist prap=new PdfReaderAndPersist();
 		
 			CopyOfCamsPortfolioPdfParser pdfParser = new CopyOfCamsPortfolioPdfParser(targetPath, pass);
-			List<Holdings> holdingsList=pdfParser.getKarvyHoldingsList(targetPath, pass);
+			List<Holdings> holdingsList= pdfParser.getKarvyHoldingsList(targetPath, pass);
 			Iterator itr = holdingsList.iterator();
 			String write = "";
 			while (itr.hasNext())

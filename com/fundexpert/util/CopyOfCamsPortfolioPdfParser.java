@@ -16,15 +16,21 @@ import java.util.regex.Pattern;
 //import com.fundexpert.exception.FundexpertException;
 import com.fundexpert.pojo.Holdings;
 import com.fundexpert.pojo.Transactions;
-import com.itextpdf.text.exceptions.BadPasswordException;
+
+/*import com.itextpdf.text.exceptions.BadPasswordException;
 import com.itextpdf.text.exceptions.InvalidPdfException;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
-
+*/
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.Math;
+
+import com.lowagie.text.pdf.PdfReader;
+import com.lowagie.text.pdf.parser.PdfTextExtractor;
+import com.lowagie.text.exceptions.BadPasswordException;
+import com.lowagie.text.exceptions.InvalidPdfException;
 
 public class CopyOfCamsPortfolioPdfParser
 {
@@ -75,15 +81,29 @@ public class CopyOfCamsPortfolioPdfParser
 			File f=new File(path);
 			is=new FileInputStream(f);
 			reader = new PdfReader(is, password.getBytes());
-			reader.unethicalreading = true;
+			//PdfReader.unethicalreading = true;
 			n = reader.getNumberOfPages();
 			// below for loop stores whatever is in the pdf to the string myLine
-			for (int i = 1; i <= n; i++)
+			//
+			     for (int index =1; index <= n; index++) {
+			         byte[] pageBuf = reader.getPageContent(index);
+			         String pageContent = new String(pageBuf);
+			         System.out.println("Page - " + index);
+			         //System.out.println(pageContent);
+				myLine = myLine + pageContent;
+			         System.out.println("");
+			     }
+			 /*for(int i = 1; i <= n; i++) {
+			        // Extract content of each page
+			        String contentOfPage = PdfTextExtractor.getTextFromPage(i, true);
+			        System.out.println(contentOfPage);
+      			}
+			/*for (int i = 1; i <= n; i++)
 			{
 				//all data is going into myline
-				myLine = myLine + PdfTextExtractor.getTextFromPage(reader, i);
+				myLine = myLine + PdfTextExtractor.getTextFromPagei(i,true);
 			}
-			//System.out.println("Here.................................................."+myLine);
+			System.out.println("Here.................................................."+myLine);*/
 		}
 		catch (InvalidPdfException ipe)
 		{
@@ -102,7 +122,7 @@ public class CopyOfCamsPortfolioPdfParser
 			if(is!=null)
 				is.close();
 		}
-		Matcher m = Pattern.compile("\r\n|\r|\n").matcher(myLine);
+				Matcher m = Pattern.compile("\r\n|\r|\n").matcher(myLine);
 		// demo array stores individual lines from myLine
 		demo = myLine.split("\r|\n|\r\n|\n\r");
 		// i the index of transaction
@@ -1188,15 +1208,26 @@ public class CopyOfCamsPortfolioPdfParser
 			File f=new File(path);
 			is=new FileInputStream(f);
 			reader = new PdfReader(is, password.getBytes());
-			reader.unethicalreading = true;
+			//reader.unethicalreading = true;
 			
 			n = reader.getNumberOfPages();
 			//System.out.println("No Of Pages="+n);
 			// below for loop stores whatever is in the pdf to the string myLine
-			for (int i = 1; i <= n; i++)
+			/*for (int i = 1; i <= n; i++)
 			{
 				myLine = myLine + PdfTextExtractor.getTextFromPage(reader, i);
-			}
+			}*/
+
+                         for (int index =1; index <= n; index++) {
+		         byte[] pageBuf = reader.getPageContent(index);
+		         String pageContent = new String(pageBuf);
+		         System.out.println("Page - " + index);
+		         //System.out.println(pageContent);
+		         System.out.println("");
+			myLine = myLine + pageContent;
+                             }
+
+
 			System.out.println(myLine);
 			reader.close();
 		}
@@ -1411,9 +1442,11 @@ public class CopyOfCamsPortfolioPdfParser
 				{
 					
 					int backwards = k;
+					if(demo[backwards].substring(0,5).length()>0){
 					while (!demo[backwards].substring(0, 5).equals("Folio"))
 					{
 						backwards--;
+					}
 					}
 					Matcher match = Pattern.compile("[ ][.0-9]+/[ ][0-9]+").matcher(demo[backwards]);
 					if(match.find())
@@ -2203,5 +2236,4 @@ public class CopyOfCamsPortfolioPdfParser
 		}
 		return transactions;
 	}
-
 }
