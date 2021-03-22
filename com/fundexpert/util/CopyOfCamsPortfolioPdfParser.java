@@ -1194,7 +1194,7 @@ public class CopyOfCamsPortfolioPdfParser
 			throw e;
 		}
 	}
-	public List getKarvyHoldingsList(String path,String password) throws BadPasswordException, InvalidPdfException, Exception
+	public List getKarvyHoldingsList(String path,String password) throws BadPasswordException, InvalidPdfException, Exception,StringIndexOutOfBoundsException
 	{
 		int n = 0;
 		String myLine = "", demo[];
@@ -1442,11 +1442,18 @@ public class CopyOfCamsPortfolioPdfParser
 				{
 					
 					int backwards = k;
-					if(demo[backwards].substring(0,5).length()>0){
+					try {
 					while (!demo[backwards].substring(0, 5).equals("Folio"))
 					{
+						if(demo[backwards].substring(0,5).equals("Folio").length()==0){
+						break;
+						}
 						backwards--;
 					}
+					}
+					catch (StringIndexOutOfBoundsException e){
+						System.out.Println("Done")
+						
 					}
 					Matcher match = Pattern.compile("[ ][.0-9]+/[ ][0-9]+").matcher(demo[backwards]);
 					if(match.find())
