@@ -83,20 +83,22 @@ public class CopyOfCamsPortfolioPdfParser
 			reader = new PdfReader(is, password.getBytes());
 			//PdfReader.unethicalreading = true;
 			n = reader.getNumberOfPages();
+			PdfTextExtractor pdfTextExtractor = new PdfTextExtractor(reader);
+
 			// below for loop stores whatever is in the pdf to the string myLine
 			//
-			     for (int index =1; index <= n; index++) {
+			/*     for (int index =1; index <= n; index++) {
 			         byte[] pageBuf = reader.getPageContent(index);
 			         String pageContent = new String(pageBuf);
 			         System.out.println("Page - " + index);
 			         //System.out.println(pageContent);
 				myLine = myLine + pageContent;
 			         System.out.println("");
-			     }
-			 /*for(int i = 1; i <= n; i++) {
+			     }*/
+			 for(int i = 1; i <= n; i++) {
 			        // Extract content of each page
-			        String contentOfPage = PdfTextExtractor.getTextFromPage(i, true);
-			        System.out.println(contentOfPage);
+			        String contentOfPage = pdfTextExtractor.getTextFromPage(i, true);
+			        System.out.println("Content OF Page="+contentOfPage);
       			}
 			/*for (int i = 1; i <= n; i++)
 			{
@@ -1209,24 +1211,15 @@ public class CopyOfCamsPortfolioPdfParser
 			is=new FileInputStream(f);
 			reader = new PdfReader(is, password.getBytes());
 			//reader.unethicalreading = true;
-			
+			PdfTextExtractor pdfTextExtractor = new PdfTextExtractor(reader);
+
 			n = reader.getNumberOfPages();
-			//System.out.println("No Of Pages="+n);
-			// below for loop stores whatever is in the pdf to the string myLine
-			/*for (int i = 1; i <= n; i++)
-			{
-				myLine = myLine + PdfTextExtractor.getTextFromPage(reader, i);
-			}*/
-
-                         for (int index =1; index <= n; index++) {
-		         byte[] pageBuf = reader.getPageContent(index);
-		         String pageContent = new String(pageBuf);
-		         System.out.println("Page - " + index);
-		         //System.out.println(pageContent);
-		         System.out.println("");
-			myLine = myLine + pageContent;
-                             }
-
+			for(int i = 1; i <= n; i++) {
+			        // Extract content of each page
+			        String content= pdfTextExtractor.getTextFromPage(i, true);
+				myLine = myLine + content;
+				//System.out.println("Content of Page"+contentOfPage);
+      			}
 
 			System.out.println(myLine);
 			reader.close();
@@ -1442,18 +1435,9 @@ public class CopyOfCamsPortfolioPdfParser
 				{
 					
 					int backwards = k;
-					try {
 					while (!demo[backwards].substring(0, 5).equals("Folio"))
 					{
-						if(demo[backwards].substring(0,5).equals("Folio").length()==0){
-						break;
-						}
 						backwards--;
-					}
-					}
-					catch (StringIndexOutOfBoundsException e){
-						System.out.Println("Done")
-						
 					}
 					Matcher match = Pattern.compile("[ ][.0-9]+/[ ][0-9]+").matcher(demo[backwards]);
 					if(match.find())
